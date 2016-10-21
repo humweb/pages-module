@@ -1,0 +1,39 @@
+{
+  "name": "humweb/pages-module",
+  "type": "module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ryan Shofner",
+      "email": "ryun@humboldtweb.com"
+    }
+  ],
+  "description": "The Laravel Framework.",
+  "keywords": [
+    "framework",
+    "laravel"
+  ],
+  "require": {
+    "php": ">=5.6.4",
+    "laravel/framework": "5.3.*"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Humweb\\Pages": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
+  "scripts": {
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
