@@ -2,6 +2,7 @@
 
 namespace Humweb\Pages;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 
 /**
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\File;
 class Layouts
 {
     protected $layoutPaths;
-
 
     /**
      * Layouts constructor.
@@ -43,18 +43,21 @@ class Layouts
 
     public function getLayouts()
     {
-        $key = '';
-        $files = [];
-        foreach ($this->layoutPaths as $prefix => $path) {
-            if (strpos($prefix, '::') === false) {
-                $prefix = $prefix.'.';
+
+        return Cache::remember('page:layouts', 5, function() {
+            $key = '';
+            $files = [];
+            foreach ($this->layoutPaths as $prefix => $path) {
+                if (strpos($prefix, '::') === false) {
+                    $prefix = $prefix.'.';
+                }
+                foreach (File::glob(rtrim($path,'/').'/*.blade.php') as $file) {
+                    $key = $this->prepareViewPath($prefix.basename($file));
+                    $files[$key] = $key;
+                }
             }
-            foreach (File::glob(rtrim($path,'/').'/*.blade.php') as $file) {
-                $key = $this->prepareViewPath($prefix.basename($file));
-                $files[$key] = $key;
-            }
-        }
-      return $files;
+            return $files;
+        });
     }
 
 
