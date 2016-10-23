@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Humweb\\Pages": "src/"
+      "Humweb\\Pages\\": "src/"
     }
   },
   "autoload-dev": {

@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
         'uses'       => 'AdminPagesController@postSort'
     ]);
 });
+
+
 Route::any('{path?}', [
     'as'   => 'get.pages.index',
     'uses' => 'PagesController@getIndex',
