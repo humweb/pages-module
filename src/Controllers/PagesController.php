@@ -2,9 +2,9 @@
 
 namespace Humweb\Pages\Controllers;
 
+use Humweb\Core\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use App\Http\Controllers\Controller;
 use Humweb\Menus\Models\MenuLinkModel;
 use Humweb\Pages\Models\Page;
 use Humweb\Pages\Repositories\DbPageRepositoryInterface;

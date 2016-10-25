@@ -2,7 +2,7 @@
 
 namespace Humweb\Pages\Controllers;
 
-use App\Http\Controllers\AdminController;
+use Humweb\Core\Http\Controllers\AdminController;
 use Humweb\Pages\Layouts;
 use Humweb\Pages\Models\Page;
 use Humweb\Pages\Presenters\PagePresenter;
