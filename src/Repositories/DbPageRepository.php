@@ -3,6 +3,7 @@
 namespace Humweb\Pages\Repositories;
 
 use Humweb\Core\Data\Repositories\EloquentRepository;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class DbPageRepository.
@@ -43,30 +44,34 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
      */
     public function tree()
     {
-        $pages    = [];
-        $pageList = $this->createModel()->select('id', 'parent_id', 'slug', 'uri', 'title', 'published')->orderBy('order')->get()->toArray();
-
-        // First, re-index the array.
-        foreach ($pageList as $row) {
-            $pages[$row['id']] = $row;
-        }
-
-        $pageList = [];
-
-        // Build a multidimensional array of parent > children.
-        foreach ($pages as $row) {
-            if (isset($pages[$row['parent_id']])) {
-                // Add this page to the children array of the parent page.
-                $pageList[$row['parent_id']]['children'][$row['id']] = $pages[$row['id']];
-            }
-
-            // This is a root page.
-            if ($row['parent_id'] == 0) {
-                $pageList[$row['id']] = $pages[$row['id']];
-            }
-        }
-
-        return $pageList;
+        return $this->createModel()->orderBy('parent_id')->orderBy('order')->get()->nest();
+//        $pages    = [];
+//        $pageList = $this->createModel()->select('id', 'parent_id', 'slug', 'uri', 'title', 'published')->orderBy('parent_id')->orderBy('order')->get()->toArray();
+//
+//        // First, re-index the array.
+//        foreach ($pageList as $row) {
+//            $pages[$row['id']] = $row;
+//        }
+////dd($pages);
+//        $pageList = [];
+//
+//        // Build a multidimensional array of parent > children.
+//        foreach ($pages as $id => $row) {
+//
+//            // This is a root page.
+//            if ($row['parent_id'] == 0) {
+//                $pageList[$id] = $pages[$id];
+//            }
+//
+//            // Add this page to the children array of the parent page.
+//            if (isset($pages[$row['parent_id']])) {
+//                $pageList[$row['parent_id']]['children'][$id] = $pages[$id];
+//            }
+//
+//
+//        }
+////dd($pageList);
+//        return $pageList;
     }
 
     // --------------------------------------------------------------------------
@@ -102,7 +107,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
     {
         if (is_array($pages)) {
             //reset all parent > child relations
-            $this->createModel()->update(['parent_id' => '0']);
+
+            $this->createModel()->where('parent_id', '!=',  0)->update(['parent_id' => 0]);
 
             foreach ($pages as $order => $node) {
                 $root_ids[] = $node['id'];
@@ -169,11 +175,14 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
      */
     public function getChildrenIds($id, $id_array = [])
     {
+
         $id_array[] = $id;
-        $children   = $this->createModel()->where('parent_id', $id)->pluck('id');
-        if (count($children)) {
+
+        if ($children = $this->createModel()->where('parent_id', $id)->pluck('id')) {
             // Recursive loop child -> children
-            $id_array = $this->getChildrenIds($children->toArray());
+            foreach ($children as $child) {
+                $id_array = $this->getChildrenIds($child);
+            }
         }
 
         return $id_array;
@@ -194,8 +203,7 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
 
         $segments = [];
         do {
-            $page = $this->createModel()->select('slug', 'parent_id')->find($current_id);
-
+            $page       = $this->createModel()->select('slug', 'parent_id')->find($current_id);
             $current_id = $page->parent_id;
             array_unshift($segments, $page->slug);
         } while ($page->parent_id > 0);

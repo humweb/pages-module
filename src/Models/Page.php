@@ -5,11 +5,12 @@ namespace Humweb\Pages\Models;
 use Humweb\Core\Data\Traits\HasRelatedContent;
 use Humweb\Core\Data\Traits\SluggableTrait;
 use Humweb\Tags\Models\TaggableTrait;
+use Humweb\Core\Data\Nestable\NestableTrait;
+use Illuminate\Database\Eloquent\Model;
 
-
-class Page extends \Eloquent
+class Page extends Model
 {
-    use TaggableTrait, SluggableTrait, HasRelatedContent;
+    use TaggableTrait, SluggableTrait, HasRelatedContent, NestableTrait;
 
     //The names of the tables
     protected $table = 'pages';

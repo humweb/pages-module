@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => 'auth'], function () {
     //GET
-    Route::get('admin/pages/', [
+    Route::get('admin/pages', [
         'middleware' => 'allow.only:pages.list',
         'as'         => 'get.admin.pages.index',
         'uses'       => 'AdminPagesController@getIndex',

@@ -39,16 +39,17 @@ class PagePresenter
     public function nestedAdminTree($tree = null)
     {
         $output = '';
-        if (is_array($tree)) {
+
+        if ( ! $tree->isEmpty()) {
             foreach ($tree as $node) {
-                $output .= '<li class="dd-item dd3-item" data-id="'.$node['id'].'">'.'<div class="dd-handle dd3-handle">Handle</div>'.'<div class="dd3-content">'.$node['title'];
-                $output .= ($node['published'] == 0) ? '<span class="label round">draft</span>' : '';
-                $output .= '<div class="actions">'.'<div class="btn-group">'.'<a href="/admin/pages/info/'.$node['id'].'" class="tip" title="Info"><i class="fa fa-info"></i></a>'.'<a href="'.route('get.admin.pages.create',
-                        [$node['id']]).'" class="tip" title="Add child page"><i class="fa fa-plus"></i></a>'.'<a href="'.route('get.admin.pages.edit',
-                        [$node['id']]).'" class="tip" title="Edit"><i class="fa fa-edit"></i></a>'.'<a href="'.route('get.admin.pages.delete',
-                        [$node['id']]).'" class="tip" title="Delete"><i class="fa fa-trash"></i></a>'.'</div>'.'</div></div>';
-                if (isset($node['children']) && ! empty($node['children'])) {
-                    $output .= '<ol class="dd-list dd3-list">'.$this->nestedAdminTree($node['children']).'</ol>';
+                $output .= '<li class="dd-item dd3-item" data-id="'.$node->id.'">'.'<div class="dd-handle dd3-handle">Handle</div>'.'<div class="dd3-content">'.$node->title;
+                $output .= ($node->published == 0) ? '<span class="label round">draft</span>' : '';
+                $output .= '<div class="actions">'.'<div class="btn-group">'.'<a href="/admin/pages/info/'.$node->id.'" class="tip" title="Info"><i class="fa fa-info"></i></a>'.'<a href="'.route('get.admin.pages.create',
+                        [$node->id]).'" class="tip" title="Add child page"><i class="fa fa-plus"></i></a>'.'<a href="'.route('get.admin.pages.edit',
+                        [$node->id]).'" class="tip" title="Edit"><i class="fa fa-edit"></i></a>'.'<a href="'.route('get.admin.pages.delete',
+                        [$node->id]).'" class="tip" title="Delete"><i class="fa fa-trash"></i></a>'.'</div>'.'</div></div>';
+                if ( ! $node->items->isEmpty()) {
+                    $output .= '<ol class="dd-list dd3-list">'.$this->nestedAdminTree($node->items).'</ol>';
                 }
                 $output .= '</li>';
             }

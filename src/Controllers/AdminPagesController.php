@@ -9,9 +9,8 @@ use Humweb\Pages\Presenters\PagePresenter;
 use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 use Humweb\Pages\Requests\PageSaveRequest;
 use Humweb\Tags\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Input;
-use Redirect;
 
 class AdminPagesController extends AdminController
 {
@@ -30,9 +29,9 @@ class AdminPagesController extends AdminController
     }
 
 
-    public function postSort()
+    public function postSort(Request $request)
     {
-        $order = json_decode(Input::get('pages'), true);
+        $order = json_decode($request->get('pages'), true);
         $this->page->reorder($order);
 
         return response()->json(['status' => 'ok']);
@@ -181,7 +180,7 @@ class AdminPagesController extends AdminController
             $page->saveTags($request->get('tags'));
         }
 
-        return Redirect::route('get.admin.pages.index')->with('success', 'The item has been updated.');
+        return redirect()->route('get.admin.pages.index')->with('success', 'The item has been updated.');
     }
 
 
