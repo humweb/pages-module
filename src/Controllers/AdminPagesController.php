@@ -146,9 +146,10 @@ class AdminPagesController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
+     * @param \Humweb\Pages\Requests\PageSaveRequest $request
+     * @param int                                    $id
      *
-     * @return Response
+     * @return \Humweb\Pages\Controllers\Response
      */
     public function postEdit(PageSaveRequest $request, $id)
     {
