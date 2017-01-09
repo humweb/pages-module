@@ -78,7 +78,7 @@ class AdminPagesController extends AdminController
 
         $order = Page::where('parent_id', '=', $parent_id)->max('order') ?: 0;
         $data  = [
-            'created_by'       => Auth::user()->id,
+            'created_by'       => $request->user()->id,
             'slug'             => Str::slug($request->get('slug')),
             'parent_id'        => $request->get('parent_id', 0),
             'uri'              => $request->get('slug'),
@@ -163,7 +163,7 @@ class AdminPagesController extends AdminController
             'layout'           => $request->get('layout'),
             'slug'             => str_slug($request->get('slug')),
             'uri'              => str_slug($request->get('slug')),
-            'created_by'       => Auth::user()->id,
+            'created_by'       => $request->user()->id,
             'css'              => $request->get('css'),
             'js'               => $request->get('js'),
             'published'        => $request->get('published'),
