@@ -10,6 +10,7 @@ use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 use Humweb\Pages\Requests\PageSaveRequest;
 use Humweb\Tags\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AdminPagesController extends AdminController
@@ -77,7 +78,7 @@ class AdminPagesController extends AdminController
 
         $order = Page::where('parent_id', '=', $parent_id)->max('order') ?: 0;
         $data  = [
-            'created_by'       => $this->currentUser->id,
+            'created_by'       => Auth::user()->id,
             'slug'             => Str::slug($request->get('slug')),
             'parent_id'        => $request->get('parent_id', 0),
             'uri'              => $request->get('slug'),
@@ -162,7 +163,7 @@ class AdminPagesController extends AdminController
             'layout'           => $request->get('layout'),
             'slug'             => str_slug($request->get('slug')),
             'uri'              => str_slug($request->get('slug')),
-            'created_by'       => $this->currentUser->id,
+            'created_by'       => Auth::user()->id,
             'css'              => $request->get('css'),
             'js'               => $request->get('js'),
             'published'        => $request->get('published'),
