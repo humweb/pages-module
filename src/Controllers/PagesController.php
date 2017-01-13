@@ -5,7 +5,7 @@ namespace Humweb\Pages\Controllers;
 use Humweb\Core\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Humweb\Menus\Models\MenuLinkModel;
+use Humweb\Menus\Models\MenuItem;
 use Humweb\Pages\Models\Page;
 use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 
@@ -23,7 +23,7 @@ class PagesController extends Controller
     public function __construct(DbPageRepositoryInterface $page)
     {
         parent::__construct();
-        $menu = MenuLinkModel::build_navigation(1);
+        $menu = MenuItem::build_navigation(1);
         $this->viewShare('menu', $menu);
 
         $this->page = $page;
