@@ -3,12 +3,10 @@
 namespace Humweb\Pages\Controllers;
 
 use Humweb\Core\Http\Controllers\Controller;
+use Humweb\Menus\Models\MenuItem;
+use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Humweb\Menus\Models\MenuItem;
-use Humweb\Pages\Models\Page;
-use Humweb\Pages\Repositories\DbPageRepositoryInterface;
-
 
 /**
  * @todo  Settings
@@ -19,6 +17,7 @@ class PagesController extends Controller
     protected $page;
     protected $chunks;
     protected $crumbs;
+
 
     public function __construct(DbPageRepositoryInterface $page)
     {
@@ -43,6 +42,7 @@ class PagesController extends Controller
         $this->getIndex($uri);
     }
 
+
     /**
      * Serves up dynamic pages by URI.
      *
@@ -53,9 +53,7 @@ class PagesController extends Controller
     public function getIndex(Request $request, $uri = null)
     {
 
-        $page = (is_null($uri))
-            ? $this->page->getIndex()
-            : $this->page->getByUri($uri);
+        $page = (is_null($uri)) ? $this->page->getIndex() : $this->page->getByUri($uri);
 
         if ($page) {
             // ---------------------------------
@@ -65,14 +63,13 @@ class PagesController extends Controller
             //$this->setMeta('title', $page->meta_title ?: $page->title);
             //$this->setMeta('description', $page->meta_description ?: substr($page->content, 0, 50));
 
-
             // First we need to figure out our metadata. If we have meta for our page,
             // that overrides the meta from the page layout.
             $meta_keywords = [];
             foreach ($page->tagged->toArray() as $tag) {
                 $meta_keywords[] = $tag['name'];
             }
-            if (!empty($meta_keywords)) {
+            if ( ! empty($meta_keywords)) {
                 //$this->setMeta('keywords', implode(',', $meta_keywords));
             }
 
@@ -84,7 +81,7 @@ class PagesController extends Controller
                 $meta_robots = $page->meta_robots;
             }
 
-           // $this->setMeta('robots', $meta_robots);
+             $this->setMeta('robots', $meta_robots);
 
             //$this->viewShare('metadata', implode("\n",$this->_metadata));
 
@@ -93,7 +90,7 @@ class PagesController extends Controller
                 //$this->_metadata[] = '<script src="/assets/js/ckeditor/ckeditor.js"></script>';
             }
 
-            if (!empty($page->layout)) {
+            if ( ! empty($page->layout)) {
                 $this->setLayout($page->layout);
             }
 

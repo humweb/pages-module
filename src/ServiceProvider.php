@@ -46,6 +46,7 @@ class ServiceProvider extends ModuleBaseProvider
         $this->loadViews();
         $this->publishViews();
 
+
     }
 
     public function register()
