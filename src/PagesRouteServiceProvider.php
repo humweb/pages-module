@@ -2,8 +2,8 @@
 
 namespace Humweb\Pages;
 
-use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Illuminate\Routing\Router;
 
 class PagesRouteServiceProvider extends RouteServiceProvider
 {
@@ -16,6 +16,7 @@ class PagesRouteServiceProvider extends RouteServiceProvider
      */
     protected $namespace = 'Humweb\Pages\Controllers';
 
+
     /**
      * Define the routes for the application.
      *
@@ -24,7 +25,7 @@ class PagesRouteServiceProvider extends RouteServiceProvider
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace, 'middleware' => 'web'], function ($router) {
-          require __DIR__.'/routes.php';
+            require __DIR__.'/routes.php';
         });
     }
 }

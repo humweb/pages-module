@@ -1,15 +1,15 @@
 @section('content')
-{!! $content !!}
+    {!! $content !!}
 @show
 
 @section('styles')
-@if (!empty($js))
-<style>{!! $css !!}</style>
-@endif
+    @if (!empty($js))
+        <style>{!! $css !!}</style>
+    @endif
 @show
 
 @section('header_scripts')
-@if (!empty($js))
-<script>{!! $js !!}</script>
-@endif
+    @if (!empty($js))
+        <script>{!! $js !!}</script>
+    @endif
 @show

@@ -2,10 +2,10 @@
 
 namespace Humweb\Pages\Models;
 
+use Humweb\Core\Data\Nestable\NestableTrait;
 use Humweb\Core\Data\Traits\HasRelatedContent;
 use Humweb\Core\Data\Traits\SluggableTrait;
 use Humweb\Tags\Models\TaggableTrait;
-use Humweb\Core\Data\Nestable\NestableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
@@ -13,10 +13,17 @@ class Page extends Model
     use TaggableTrait, SluggableTrait, HasRelatedContent, NestableTrait;
 
     //The names of the tables
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED  = 1;
+    const STATUS_DRAFT    = 2;
+    public $rules = [
+        'title'     => 'required|min:3|unique:pages,title',
+        'slug'      => 'required_with:title|min:3|alpha_dash|unique:pages,slug',
+        'content'   => 'required|min:10',
+        'published' => 'in:0,1',
+    ];
     protected $table = 'pages';
-
     protected $tagger;
-
     protected $fillable = [
         'title',
         'uri',
@@ -35,26 +42,12 @@ class Page extends Model
         'meta_robots',
         'order',
     ];
-
     protected $attributes = [
         'created_by' => 0,
-        'parent_id' => 0,
-        'published' => false,
+        'parent_id'  => 0,
+        'published'  => false,
     ];
-
-    public $rules = [
-        'title'     => 'required|min:3|unique:pages,title',
-        'slug'      => 'required_with:title|min:3|alpha_dash|unique:pages,slug',
-        'content'   => 'required|min:10',
-        'published' => 'in:0,1',
-    ];
-
-
     protected $versionsEnabled = true;
-
-    const STATUS_DISABLED = 0;
-    const STATUS_ENABLED  = 1;
-    const STATUS_DRAFT = 2;
 
 
     public function __construct(array $attributes = array())
@@ -68,13 +61,14 @@ class Page extends Model
             'slug_field' => 'slug',
             'from_field' => 'title',
         ];
-
     }
+
 
     public function user()
     {
         return $this->belongsTo('User', 'created_by');
     }
+
 
     public function scopeTerms($query, $terms, $column = 'content')
     {
@@ -95,10 +89,12 @@ class Page extends Model
         return $query;
     }
 
+
     public function scopePublished($query)
     {
         return $query->where('published', 1);
     }
+
 
     public function scopeUri($query, $uri)
     {

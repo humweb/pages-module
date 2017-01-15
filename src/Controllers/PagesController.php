@@ -81,7 +81,7 @@ class PagesController extends Controller
                 $meta_robots = $page->meta_robots;
             }
 
-             $this->setMeta('robots', $meta_robots);
+            $this->setMeta('robots', $meta_robots);
 
             //$this->viewShare('metadata', implode("\n",$this->_metadata));
 

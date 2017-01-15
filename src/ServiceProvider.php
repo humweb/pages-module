@@ -10,31 +10,32 @@ class ServiceProvider extends ModuleBaseProvider
 
         // Users
         'pages.create' => [
-            'name' => 'Create Pages',
+            'name'        => 'Create Pages',
             'description' => 'Create pages.',
         ],
-        'pages.edit' => [
-            'name' => 'Edit Pages',
+        'pages.edit'   => [
+            'name'        => 'Edit Pages',
             'description' => 'Edit pages.',
         ],
-        'pages.list' => [
-            'name' => 'List Pages',
+        'pages.list'   => [
+            'name'        => 'List Pages',
             'description' => 'List pages.',
         ],
         'pages.delete' => [
-            'name' => 'Delete Pages',
+            'name'        => 'Delete Pages',
             'description' => 'Delete pages.',
         ],
     ];
 
     protected $moduleMeta = [
-        'name' => 'Pages CMS',
-        'slug' => 'pages',
+        'name'    => 'Pages CMS',
+        'slug'    => 'pages',
         'version' => '',
-        'author' => '',
-        'email' => '',
+        'author'  => '',
+        'email'   => '',
         'website' => '',
     ];
+
 
     /**
      * Bootstrap the application events.
@@ -45,24 +46,23 @@ class ServiceProvider extends ModuleBaseProvider
         $this->loadLang();
         $this->loadViews();
         $this->publishViews();
-
-
     }
+
 
     public function register()
     {
-        $this->app->bind('Humweb\Pages\Repositories\DbPageRepositoryInterface',
-            'Humweb\Pages\Repositories\DbPageRepository');
+        $this->app->bind('Humweb\Pages\Repositories\DbPageRepositoryInterface', 'Humweb\Pages\Repositories\DbPageRepository');
     }
+
 
     public function getAdminMenu()
     {
         return [
             'Content' => [
                 [
-                    'label' => 'Pages',
-                    'url' => url('/admin/pages'),
-                    'icon' => '<i class="fa fa-book" ></i>',
+                    'label'    => 'Pages',
+                    'url'      => url('/admin/pages'),
+                    'icon'     => '<i class="fa fa-book" ></i>',
                     'children' => [
                         ['label' => 'List', 'url' => url('/admin/pages')],
                         ['label' => 'Create', 'url' => url('/admin/pages/create')],
@@ -71,6 +71,7 @@ class ServiceProvider extends ModuleBaseProvider
             ],
         ];
     }
+
 
     /**
      * Get the services provided by the provider.

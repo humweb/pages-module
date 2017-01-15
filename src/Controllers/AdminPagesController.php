@@ -10,7 +10,6 @@ use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 use Humweb\Pages\Requests\PageSaveRequest;
 use Humweb\Tags\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AdminPagesController extends AdminController

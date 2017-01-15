@@ -6,22 +6,23 @@ use Humweb\Module\AbstractModule;
 
 class Module extends AbstractModule
 {
-    public $name = 'Pages';
-    public $version = '1.1';
-    public $author = 'Ryun SHofner';
-    public $website = 'humboldtweb.com';
-    public $license = 'BSD-3-Clause';
-    public $description = 'Pages Module';
+    public $name          = 'Pages';
+    public $version       = '1.1';
+    public $author        = 'Ryun SHofner';
+    public $website       = 'humboldtweb.com';
+    public $license       = 'BSD-3-Clause';
+    public $description   = 'Pages Module';
     public $admin_section = 'Content';
-    public $autoload = [
+    public $autoload      = [
         'routes.php',
     ];
 
+
     public function boot()
     {
-        $this->app->bind('Humweb\Pages\Repositories\DbPageRepositoryInterface',
-                         'Humweb\Pages\Repositories\DbPageRepository');
+        $this->app->bind('Humweb\Pages\Repositories\DbPageRepositoryInterface', 'Humweb\Pages\Repositories\DbPageRepository');
     }
+
 
     public function install()
     {
@@ -52,23 +53,25 @@ class Module extends AbstractModule
 
         $homePage = Page::create([
             'created_by' => 1,
-            'slug' => 'home',
-            'parent_id' => 0,
-            'uri' => 'home',
-            'title' => 'Home',
-            'content' => 'Welcome to your new site!',
-            'published' => 1,
-            'is_index' => 1,
-            'order' => 0,
+            'slug'       => 'home',
+            'parent_id'  => 0,
+            'uri'        => 'home',
+            'title'      => 'Home',
+            'content'    => 'Welcome to your new site!',
+            'published'  => 1,
+            'is_index'   => 1,
+            'order'      => 0,
         ]);
 
         return $homePage->slug == 'home';
     }
 
+
     public function upgrade()
     {
         return true;
     }
+
 
     public function uninstall()
     {
@@ -77,14 +80,15 @@ class Module extends AbstractModule
         return true;
     }
 
+
     public function admin_menu()
     {
         return [
             'Content' => [
                 [
-                    'label' => 'Pages',
-                    'url' => url('/admin/pages'),
-                    'icon' => '<i class="fa fa-book" ></i>',
+                    'label'    => 'Pages',
+                    'url'      => url('/admin/pages'),
+                    'icon'     => '<i class="fa fa-book" ></i>',
                     'children' => [
                         ['label' => 'List', 'url' => url('/admin/pages')],
                         ['label' => 'Create', 'url' => url('/admin/pages/create')],
@@ -93,6 +97,7 @@ class Module extends AbstractModule
             ],
         ];
     }
+
 
     public function admin_quick_menu()
     {

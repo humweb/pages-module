@@ -47,7 +47,6 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 });
 
-
 Route::any('{path?}', [
     'as'   => 'get.pages.index',
     'uses' => 'PagesController@getIndex',

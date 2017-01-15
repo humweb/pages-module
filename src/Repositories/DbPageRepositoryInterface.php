@@ -16,6 +16,7 @@ interface DbPageRepositoryInterface extends CrudRepositoryInterface
      */
     public function getIndex();
 
+
     /**
      * Get page by uri index.
      *
@@ -24,6 +25,7 @@ interface DbPageRepositoryInterface extends CrudRepositoryInterface
      * @return mixed
      */
     public function getByUri($uri);
+
 
     /**
      * Returns a ordered tree array of pages.
@@ -42,6 +44,7 @@ interface DbPageRepositoryInterface extends CrudRepositoryInterface
      * @return mixed
      */
     public function reorder($pages);
+
 
     /**
      * Build a lookup.

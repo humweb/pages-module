@@ -29,17 +29,17 @@
         <script src="{{ asset('js/jquery.nestable.js') }}"></script>
 
         <script>
-            $(function(){
-                var updateOutput = function(e){
+            $(function () {
+                var updateOutput = function (e) {
                     var list = e.length ? e : $(e.target), output = list.data('output');
                     if (window.JSON) {
                         $.post('/admin/pages/sort', {
-                                    _token: '{{ Session::token() }}',
-                                    pages: window.JSON.stringify(list.nestable('serialize'))
-                                },
-                                function(data){
-                                    console.log(data)
-                                }, 'json'
+                                _token: '{{ Session::token() }}',
+                                pages: window.JSON.stringify(list.nestable('serialize'))
+                            },
+                            function (data) {
+                                console.log(data)
+                            }, 'json'
                         );
                     }
                 };

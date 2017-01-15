@@ -38,45 +38,6 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
 
 
     /**
-     * Returns a ordered tree array of pages.
-     *
-     * @return array
-     */
-    public function tree()
-    {
-        return $this->createModel()->orderBy('parent_id')->orderBy('order')->get()->nest();
-//        $pages    = [];
-//        $pageList = $this->createModel()->select('id', 'parent_id', 'slug', 'uri', 'title', 'published')->orderBy('parent_id')->orderBy('order')->get()->toArray();
-//
-//        // First, re-index the array.
-//        foreach ($pageList as $row) {
-//            $pages[$row['id']] = $row;
-//        }
-////dd($pages);
-//        $pageList = [];
-//
-//        // Build a multidimensional array of parent > children.
-//        foreach ($pages as $id => $row) {
-//
-//            // This is a root page.
-//            if ($row['parent_id'] == 0) {
-//                $pageList[$id] = $pages[$id];
-//            }
-//
-//            // Add this page to the children array of the parent page.
-//            if (isset($pages[$row['parent_id']])) {
-//                $pageList[$row['parent_id']]['children'][$id] = $pages[$id];
-//            }
-//
-//
-//        }
-////dd($pageList);
-//        return $pageList;
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Delete's page and shifts children up one level.
      *
      * @param $id
@@ -96,7 +57,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         return false;
     }
 
-    /*** Reorder *****************************************************/
+    // --------------------------------------------------------------------------
+
 
     /**
      * Reorder pages.
@@ -108,7 +70,7 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         if (is_array($pages)) {
             //reset all parent > child relations
 
-            $this->createModel()->where('parent_id', '!=',  0)->update(['parent_id' => 0]);
+            $this->createModel()->where('parent_id', '!=', 0)->update(['parent_id' => 0]);
 
             foreach ($pages as $order => $node) {
                 $root_ids[] = $node['id'];
@@ -120,6 +82,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         }
         $this->updatePageUriIndex($root_ids);
     }
+
+    /*** Reorder *****************************************************/
 
 
     /**
@@ -140,7 +104,7 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
             }
         }
     }
-    // --------------------------------------------------------------------------
+
 
     /**
      * Update lookup.
@@ -163,6 +127,7 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
             }
         }
     }
+    // --------------------------------------------------------------------------
 
 
     /**
@@ -188,7 +153,6 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         return $id_array;
     }
 
-    // --------------------------------------------------------------------------
 
     /**
      * Build a lookup.
@@ -211,6 +175,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         return $this->createModel()->where('id', $id)->update(['uri' => implode('/', $segments)]);
     }
 
+    // --------------------------------------------------------------------------
+
 
     public function build_select($tree = [], $level = 0, $prefix = '-')
     {
@@ -232,5 +198,43 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
 
             return $output;
         }
+    }
+
+
+    /**
+     * Returns a ordered tree array of pages.
+     *
+     * @return array
+     */
+    public function tree()
+    {
+        return $this->createModel()->orderBy('parent_id')->orderBy('order')->get()->nest();
+        //        $pages    = [];
+        //        $pageList = $this->createModel()->select('id', 'parent_id', 'slug', 'uri', 'title', 'published')->orderBy('parent_id')->orderBy('order')->get()->toArray();
+        //
+        //        // First, re-index the array.
+        //        foreach ($pageList as $row) {
+        //            $pages[$row['id']] = $row;
+        //        }
+        ////dd($pages);
+        //        $pageList = [];
+        //
+        //        // Build a multidimensional array of parent > children.
+        //        foreach ($pages as $id => $row) {
+        //
+        //            // This is a root page.
+        //            if ($row['parent_id'] == 0) {
+        //                $pageList[$id] = $pages[$id];
+        //            }
+        //
+        //            // Add this page to the children array of the parent page.
+        //            if (isset($pages[$row['parent_id']])) {
+        //                $pageList[$row['parent_id']]['children'][$id] = $pages[$id];
+        //            }
+        //
+        //
+        //        }
+        ////dd($pageList);
+        //        return $pageList;
     }
 }
