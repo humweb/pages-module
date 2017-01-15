@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\File;
 class Layouts
 {
     protected $layoutPaths;
+    protected $themePath;
+    protected $theme;
+
 
     /**
      * Layouts constructor.
@@ -20,6 +23,13 @@ class Layouts
     public function __construct()
     {
         $this->setLayoutPaths(config('pages.layout_paths'));
+
+        try {
+            $this->theme         = resolve('theme');
+            $this->themePath     = $this->theme->activeThemePath('views/layouts');
+            $this->layoutPaths[] = $this->themePath;
+        } catch (\Exception $e) {
+        }
     }
 
 
@@ -43,19 +53,20 @@ class Layouts
 
     public function getLayouts()
     {
-
-        return Cache::remember('page:layouts', 5, function() {
-            $key = '';
+        //dd($this->layoutPaths);
+        return Cache::remember('page:layouts6', 5, function () {
+            $key   = '';
             $files = [];
             foreach ($this->layoutPaths as $prefix => $path) {
                 if (strpos($prefix, '::') === false) {
-                    $prefix = $prefix.'.';
+                    $prefix = 'layouts.';
                 }
-                foreach (File::glob(rtrim($path,'/').'/*.blade.php') as $file) {
-                    $key = $this->prepareViewPath($prefix.basename($file));
+                foreach (File::glob(rtrim($path, '/').'/*.blade.php') as $file) {
+                    $key         = $this->prepareViewPath($prefix.basename($file));
                     $files[$key] = $key;
                 }
             }
+
             return $files;
         });
     }

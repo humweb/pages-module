@@ -93,7 +93,7 @@ class PagesController extends Controller
                 //$this->_metadata[] = '<script src="/assets/js/ckeditor/ckeditor.js"></script>';
             }
 
-            if (!empty($page->layout)){
+            if (!empty($page->layout)) {
                 $this->setLayout($page->layout);
             }
 
