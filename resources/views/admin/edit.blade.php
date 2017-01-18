@@ -88,6 +88,9 @@
         <div class="panel-footer">
             {!! Form::submit('Save', array('class' => 'btn btn-primary')) !!}
             <a href="{{ route('get.admin.pages.index') }}" class="btn btn-default">Cancel</a>
+            <label class="inline-checkbox" title="Save and exit" data-toggle="tooltip">
+                &nbsp {!! Form::checkbox('save_exit', 1, null) !!} Save and exit
+            </label>
             <label class="inline-checkbox" title="Set as index page" data-toggle="tooltip">
                 &nbsp {!! Form::checkbox('is_index', 1, Request::old('is_index', $page->is_index)) !!} Default page
             </label>

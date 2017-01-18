@@ -181,7 +181,9 @@ class AdminPagesController extends AdminController
             $page->saveTags($request->get('tags'));
         }
 
-        return redirect()->route('get.admin.pages.index')->with('success', 'The item has been updated.');
+        $response = $request->get('save_exit') ? redirect()->route('get.admin.pages.index') : redirect()->route('get.admin.pages.edit', [$id]);
+
+        return $response->with('success', 'The item has been updated.');
     }
 
 
