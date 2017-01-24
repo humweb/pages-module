@@ -85,7 +85,6 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
 
     /*** Reorder *****************************************************/
 
-
     /**
      * Set the parent > child relations and child order.
      *
@@ -175,8 +174,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         return $this->createModel()->where('id', $id)->update(['uri' => implode('/', $segments)]);
     }
 
-    // --------------------------------------------------------------------------
 
+    // --------------------------------------------------------------------------
 
     public function build_select($tree = [], $level = 0, $prefix = '-')
     {

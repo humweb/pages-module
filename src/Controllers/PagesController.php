@@ -30,6 +30,7 @@ class PagesController extends Controller
 
     // --------------------------------------------------------------------------
 
+
     /**
      * Catch the URI string and send to the index method.
      *

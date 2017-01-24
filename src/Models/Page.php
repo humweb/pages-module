@@ -16,15 +16,15 @@ class Page extends Model
     const STATUS_DISABLED = 0;
     const STATUS_ENABLED  = 1;
     const STATUS_DRAFT    = 2;
-    public $rules = [
+    public    $rules           = [
         'title'     => 'required|min:3|unique:pages,title',
         'slug'      => 'required_with:title|min:3|alpha_dash|unique:pages,slug',
         'content'   => 'required|min:10',
         'published' => 'in:0,1',
     ];
-    protected $table = 'pages';
+    protected $table           = 'pages';
     protected $tagger;
-    protected $fillable = [
+    protected $fillable        = [
         'title',
         'uri',
         'created_by',
@@ -42,7 +42,7 @@ class Page extends Model
         'meta_robots',
         'order',
     ];
-    protected $attributes = [
+    protected $attributes      = [
         'created_by' => 0,
         'parent_id'  => 0,
         'published'  => false,
