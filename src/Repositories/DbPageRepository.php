@@ -200,6 +200,11 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
     }
 
 
+    public function removeIndexPage()
+    {
+        $this->createModel()->where('is_index', 1)->update(['is_index' => 0]);
+    }
+
     /**
      * Returns a ordered tree array of pages.
      *
@@ -208,32 +213,5 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
     public function tree()
     {
         return $this->createModel()->orderBy('parent_id')->orderBy('order')->get()->nest();
-        //        $pages    = [];
-        //        $pageList = $this->createModel()->select('id', 'parent_id', 'slug', 'uri', 'title', 'published')->orderBy('parent_id')->orderBy('order')->get()->toArray();
-        //
-        //        // First, re-index the array.
-        //        foreach ($pageList as $row) {
-        //            $pages[$row['id']] = $row;
-        //        }
-        ////dd($pages);
-        //        $pageList = [];
-        //
-        //        // Build a multidimensional array of parent > children.
-        //        foreach ($pages as $id => $row) {
-        //
-        //            // This is a root page.
-        //            if ($row['parent_id'] == 0) {
-        //                $pageList[$id] = $pages[$id];
-        //            }
-        //
-        //            // Add this page to the children array of the parent page.
-        //            if (isset($pages[$row['parent_id']])) {
-        //                $pageList[$row['parent_id']]['children'][$id] = $pages[$id];
-        //            }
-        //
-        //
-        //        }
-        ////dd($pageList);
-        //        return $pageList;
     }
 }

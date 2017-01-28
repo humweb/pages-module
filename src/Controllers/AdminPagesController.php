@@ -101,6 +101,11 @@ class AdminPagesController extends AdminController
             $data['published_at'] = date('Y-m-d H:i:s');
         }
 
+        // remove index page if needed
+        if ($request->get('is_index', 0)) {
+            $this->page->removeIndexPage();
+        }
+
         $page = Page::create($data);
         redirect()->route('get.admin.pages.index');
     }
@@ -172,6 +177,11 @@ class AdminPagesController extends AdminController
             'meta_robots'      => $request->get('meta_robots'),
             'is_index'         => $request->get('is_index', $is_index),
         ];
+
+        // remove index page if needed
+        if ($is_index) {
+            $this->page->removeIndexPage();
+        }
 
         //Save page
         $this->page->update($pageId, $data);
