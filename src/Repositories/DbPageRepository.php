@@ -200,9 +200,14 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
     }
 
 
-    public function removeIndexPage()
+    /**
+     * Remove's index page status from previous page
+     *
+     * @return integer
+     */
+    public function removeIndexPageStatus()
     {
-        $this->createModel()->where('is_index', 1)->update(['is_index' => 0]);
+        return $this->createModel()->where('is_index', 1)->update(['is_index' => 0]);
     }
 
     /**

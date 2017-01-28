@@ -103,7 +103,7 @@ class AdminPagesController extends AdminController
 
         // remove index page if needed
         if ($request->get('is_index', 0)) {
-            $this->page->removeIndexPage();
+            $this->page->removeIndexPageStatus();
         }
 
         $page = Page::create($data);
@@ -180,7 +180,7 @@ class AdminPagesController extends AdminController
 
         // remove index page if needed
         if ($is_index) {
-            $this->page->removeIndexPage();
+            $this->page->removeIndexPageStatus();
         }
 
         //Save page

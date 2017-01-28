@@ -54,4 +54,12 @@ interface DbPageRepositoryInterface extends CrudRepositoryInterface
      * @return array
      */
     public function reindex($id);
+
+
+    /**
+     * Remove's index page status from previous page
+     *
+     * @return void
+     */
+    public function removeIndexPageStatus();
 }
