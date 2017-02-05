@@ -8,18 +8,40 @@
       "email": "ryun@humboldtweb.com"
     }
   ],
-  "description": "The Laravel Framework.",
+  "description": "Pages module.",
   "keywords": [
-    "framework",
-    "laravel"
+
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/humweb/modules"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/humweb/core-module"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/humweb/theme-manager"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/humweb/tags-module"
+    }
   ],
   "require": {
     "php": ">=5.6.4",
-    "laravel/framework": "5.3.*"
+    "laravel/framework": "5.3.*",
+    "humweb/modules": "dev-master",
+    "humweb/core-module": "dev-master",
+    "humweb/tags-module": "dev-master",
+    "humweb/theme-manager": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0||~5.0",
-    "squizlabs/php_codesniffer": "^2.3"
+    "squizlabs/php_codesniffer": "^2.3",
+    "orchestra/testbench": "~3.3"
   },
   "autoload": {
     "psr-4": {
@@ -27,9 +49,9 @@
     }
   },
   "autoload-dev": {
-    "classmap": [
-      "tests/TestCase.php"
-    ]
+    "psr-4": {
+      "Humweb\\Tests\\Pages\\": "tests/"
+    }
   },
   "scripts": {
   },
