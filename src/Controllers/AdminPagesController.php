@@ -183,6 +183,13 @@ class AdminPagesController extends AdminController
             $this->page->removeIndexPageStatus();
         }
 
+        // Toggle published / published
+        elseif ($data['published'] == 0) {
+            $data['published_at'] = null;
+        } elseif ($data['published'] != $page->published && $data['published'] == 1) {
+            $data['published_at'] = Carbon::now();
+        }
+
         //Save page
         $this->page->update($pageId, $data);
 
