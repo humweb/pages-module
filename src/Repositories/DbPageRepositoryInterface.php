@@ -28,32 +28,42 @@ interface DbPageRepositoryInterface extends CrudRepositoryInterface
 
 
     /**
+     * Get page by URI string.
+     *
+     * @param $slug
+     *
+     * @return mixed
+     */
+    public function getBySlug($slug);
+
+
+    /**
      * Returns a ordered tree array of pages.
+     *
+     * @param bool $published
      *
      * @return array
      */
-    public function tree();
+    public function tree($published = false);
+
+    /**
+     * @param bool   $published
+     * @param array  $tree
+     * @param int    $level
+     * @param string $prefix
+     *
+     * @return string
+     */
+    public function build_select($published = false, $tree = [], $level = 0, $prefix = '-');
 
     /*** Reorder *****************************************************/
 
     /**
-     * Reorder pages.
-     *
-     * @param $pages
-     *
-     * @return mixed
+     * @param integer|Page $item
+     * @param integer      $toParentId
+     * @param integer      $fromParentId
      */
-    public function reorder($pages);
-
-
-    /**
-     * Build a lookup.
-     *
-     * @param int $id The id of the page to build the lookup for.
-     *
-     * @return array
-     */
-    public function reindex($id);
+    public function updateHierarchy($item, $toParentId, $fromParentId);
 
 
     /**

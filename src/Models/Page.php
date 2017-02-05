@@ -2,29 +2,33 @@
 
 namespace Humweb\Pages\Models;
 
+use Humweb\Auth\Users\User;
 use Humweb\Core\Data\Nestable\NestableTrait;
 use Humweb\Core\Data\Traits\HasRelatedContent;
 use Humweb\Core\Data\Traits\SluggableTrait;
+use Humweb\Core\Data\Traits\SortablePosition;
 use Humweb\Tags\Models\TaggableTrait;
 use Illuminate\Database\Eloquent\Model;
 
+//TODO: refactor is_index to settings
+
+/**
+ * Page model
+ *
+ * @package Humweb\Pages\Models
+ */
 class Page extends Model
 {
-    use TaggableTrait, SluggableTrait, HasRelatedContent, NestableTrait;
+    use TaggableTrait, SortablePosition, HasRelatedContent, NestableTrait, SluggableTrait;
 
-    //The names of the tables
-    const STATUS_DISABLED = 0;
-    const STATUS_ENABLED  = 1;
-    const STATUS_DRAFT    = 2;
-    public    $rules           = [
-        'title'     => 'required|min:3|unique:pages,title',
-        'slug'      => 'required_with:title|min:3|alpha_dash|unique:pages,slug',
-        'content'   => 'required|min:10',
-        'published' => 'in:0,1',
-    ];
-    protected $table           = 'pages';
-    protected $tagger;
-    protected $fillable        = [
+    // Page status constants
+    const STATUS_DISABLED  = 0;
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT     = 2;
+
+    protected $table = 'pages';
+
+    protected $fillable = [
         'title',
         'uri',
         'created_by',
@@ -42,17 +46,24 @@ class Page extends Model
         'meta_robots',
         'order',
     ];
-    protected $attributes      = [
+
+    protected $attributes = [
         'created_by' => 0,
         'parent_id'  => 0,
-        'published'  => false,
+        'published'  => 0,
     ];
+
     protected $versionsEnabled = true;
+    static    $callCount       = 0;
 
 
+    /**
+     * Page constructor.
+     *
+     * @param array $attributes
+     */
     public function __construct(array $attributes = array())
     {
-
         parent::__construct($attributes);
 
         $this->slugOptions = [
@@ -61,35 +72,53 @@ class Page extends Model
             'slug_field' => 'slug',
             'from_field' => 'title',
         ];
+
+        $this->initSortable([
+            'column' => 'order',
+            'scope'  => 'parent_id',
+        ]);
     }
 
 
+    /**
+     * Children relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
+    {
+        return $this->hasMany(Page::class, 'parent_id', 'id')->orderBy('order', 'ASC');
+    }
+
+
+    /**
+     * Parent relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Page::class, 'parent_id', 'id')->where('parent_id', '!=', 0);
+    }
+
+
+    /**
+     * User relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
-        return $this->belongsTo('User', 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
 
-    public function scopeTerms($query, $terms, $column = 'content')
-    {
-        if (is_string($terms)) {
-            if (strstr(',', $terms)) {
-                $terms = explode(',', str_replace(' ', '', $terms));
-            } elseif (strstr(' ', $terms)) {
-                $terms = explode(' ', $terms);
-            } else {
-                return $query->where($column, 'like', '%'.$term.'%');
-            }
-        }
-
-        foreach ($terms as $term) {
-            $query->where($column, 'like', '%'.$term.'%');
-        }
-
-        return $query;
-    }
-
-
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    // TODO: refactor to status column
     public function scopePublished($query)
     {
         return $query->where('published', 1);
@@ -100,4 +129,17 @@ class Page extends Model
     {
         return $query->where('uri', $uri);
     }
+
+
+    public function isRoot()
+    {
+        return $this->parent_id == 0;
+    }
+
+
+    public function isChild()
+    {
+        return $this->parent_id > 0;
+    }
+
 }

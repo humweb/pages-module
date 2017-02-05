@@ -31,8 +31,7 @@ class AdminPagesController extends AdminController
 
     public function postSort(Request $request)
     {
-        $order = json_decode($request->get('pages'), true);
-        $this->page->reorder($order);
+        $this->page->reorder($request->get('item'), $request->get('position'), $request->get('parent'));
 
         return response()->json(['status' => 'ok']);
     }
