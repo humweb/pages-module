@@ -112,10 +112,11 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
         while ($page->parent_id > 0) {
             $page       = $this->createModel()->select('slug', 'parent_id')->find($current_id);
             $current_id = $page->parent_id;
+
             array_unshift($segments, $page->slug);
         }
         $item->uri = implode('/', $segments);
-        //        $item->save();
+        $item->save();
     }
 
 
