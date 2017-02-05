@@ -64,8 +64,8 @@ class ServiceProvider extends ModuleBaseProvider
                     'url'      => url('/admin/pages'),
                     'icon'     => '<i class="fa fa-book" ></i>',
                     'children' => [
-                        ['label' => 'List', 'url' => url('/admin/pages')],
-                        ['label' => 'Create', 'url' => url('/admin/pages/create')],
+                        ['label' => 'Manage', 'url' => route('get.admin.pages.index')],
+                        ['label' => 'Create', 'url' => route('get.admin.pages.create')],
                     ],
                 ],
             ],
