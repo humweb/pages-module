@@ -2,6 +2,7 @@
 
 namespace Humweb\Pages\Controllers;
 
+use Carbon\Carbon;
 use Humweb\Core\Http\Controllers\AdminController;
 use Humweb\Pages\Layouts;
 use Humweb\Pages\Models\Page;
@@ -97,7 +98,7 @@ class AdminPagesController extends AdminController
 
         // Set published on date
         if ($data['published'] == 1) {
-            $data['published_at'] = date('Y-m-d H:i:s');
+            $data['published_at'] = Carbon::now();
         }
 
         // remove index page if needed

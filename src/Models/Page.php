@@ -53,8 +53,11 @@ class Page extends Model
         'published'  => 0,
     ];
 
+    protected $dates = [
+        'published_at'
+    ];
+
     protected $versionsEnabled = true;
-    static    $callCount       = 0;
 
 
     /**
