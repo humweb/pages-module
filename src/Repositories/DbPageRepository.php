@@ -75,6 +75,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
 
 
     /**
+     * Update URI paths for parent and child pages
+     *
      * @param integer|Page $item
      * @param integer      $toParentId
      * @param integer      $fromParentId
@@ -100,6 +102,8 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
 
 
     /**
+     * Update URI path
+     *
      * @param $item
      */
     protected function updatePagePath($item)
