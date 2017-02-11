@@ -71,7 +71,13 @@ class PagesController extends Controller
                 $meta_keywords[] = $tag['name'];
             }
             if ( ! empty($meta_keywords)) {
-                //$this->setMeta('keywords', implode(',', $meta_keywords));
+                $this->setMeta('keywords', implode(',', $meta_keywords));
+            }
+            if ( ! empty($page->meta_title)) {
+                $this->setMeta('title', $page->meta_title);
+            }
+            if ( ! empty($page->meta_description)) {
+                $this->setMeta('description', $page->meta_description);
             }
 
             if ($page->meta_robots == 'index') {
@@ -84,13 +90,6 @@ class PagesController extends Controller
 
             $this->setMeta('robots', $meta_robots);
 
-            //$this->viewShare('metadata', implode("\n",$this->_metadata));
-
-            if ($request->get('edit') == '1') {
-                $page->content = '<div contenteditable="true">'.$page->content.'</div>';
-                //$this->_metadata[] = '<script src="/assets/js/ckeditor/ckeditor.js"></script>';
-            }
-
             if ( ! empty($page->layout)) {
                 $this->setLayout($page->layout);
             }
@@ -101,7 +100,7 @@ class PagesController extends Controller
 
             return $this->setContent('pages::layouts.default', $page);
         } else {
-            App::abort(404);
+            abort(404, 'Page not found.');
         }
     }
 }
