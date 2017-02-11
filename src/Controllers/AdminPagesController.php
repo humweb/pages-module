@@ -94,20 +94,16 @@ class AdminPagesController extends AdminController
             'order'            => $order,
         ];
 
-        //Check for punlish permissions
+        //TODO: Check for publish permissions
 
         // Set published on date
         if ($data['published'] == 1) {
             $data['published_at'] = Carbon::now();
         }
 
-        // remove index page if needed
-        if ($request->get('is_index', 0)) {
-            $this->page->removeIndexPageStatus();
-        }
 
         $page = Page::create($data);
-        redirect()->route('get.admin.pages.index');
+        redirect()->route('get.admin.pages.index')->with('success', 'Page added.');
     }
 
 
@@ -160,7 +156,7 @@ class AdminPagesController extends AdminController
         $page   = $this->page->find($id);
         $pageId = $page->id;
 
-        $is_index = $request->get('is_index', 0) ?: 0;
+        $is_index = $request->get('is_index', 0) == 1;
 
         $data = [
             'title'            => $request->get('title'),
