@@ -11,7 +11,6 @@ use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 use Humweb\Pages\Requests\PageSaveRequest;
 use Humweb\Tags\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class AdminPagesController extends AdminController
 {
@@ -45,7 +44,7 @@ class AdminPagesController extends AdminController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getCreate($parent_id = 0)
+    public function getCreate(Layouts $layouts, $parent_id = 0)
     {
         $parent_page = null;
 
@@ -55,12 +54,12 @@ class AdminPagesController extends AdminController
         }
 
         $this->data = [
+            'layouts'        => $layouts->lists(),
             'parent_id'      => $parent_id,
             'parent_page'    => $parent_page,
             'title'          => 'Create Post',
             'available_tags' => $this->tag->select('slug', 'name')->orderBy('name', 'asc')->pluck('name', 'slug'),
             'current_tags'   => [],
-            'current_cats'   => [],
         ];
         $this->viewShare('title', 'Create');
         $this->crumb('Create');
@@ -75,12 +74,14 @@ class AdminPagesController extends AdminController
     public function postCreate(PageSaveRequest $request, $parent_id = 0)
     {
 
-        $order = Page::where('parent_id', '=', $parent_id)->max('order') ?: 0;
-        $data  = [
+        $slug = str_slug($request->get('slug', $request->get('title')));
+
+        $request->get('parent_id', 0);
+
+        $data = [
             'created_by'       => $request->user()->id,
-            'slug'             => Str::slug($request->get('slug')),
+            'slug'             => $slug,
             'parent_id'        => $request->get('parent_id', 0),
-            'uri'              => $request->get('slug'),
             'title'            => $request->get('title'),
             'layout'           => $request->get('layout'),
             'content'          => $request->get('content'),
@@ -90,8 +91,7 @@ class AdminPagesController extends AdminController
             'meta_title'       => $request->get('meta_title'),
             'meta_description' => $request->get('meta_description'),
             'meta_robots'      => $request->get('meta_robots'),
-            'is_index'         => $request->get('is_index', 0),
-            'order'            => $order,
+            'is_index'         => $request->get('is_index', 0)
         ];
 
         //TODO: Check for publish permissions
@@ -100,7 +100,6 @@ class AdminPagesController extends AdminController
         if ($data['published'] == 1) {
             $data['published_at'] = Carbon::now();
         }
-
 
         $page = Page::create($data);
         redirect()->route('get.admin.pages.index')->with('success', 'Page added.');
@@ -131,7 +130,7 @@ class AdminPagesController extends AdminController
         $page = $this->page->find($id);
 
         $this->data = [
-            'layouts'        => $layouts->getLayouts(),
+            'layouts'        => $layouts->lists(),
             'page'           => $page,
             'available_tags' => $this->tag->select('slug', 'name')->orderBy('name', 'asc')->pluck('name', 'slug'),
             'current_tags'   => ($page->tagged->count() > 0) ? $page->tagged()->pluck('name', 'slug') : [],
@@ -177,9 +176,7 @@ class AdminPagesController extends AdminController
         // remove index page if needed
         if ($is_index) {
             $this->page->removeIndexPageStatus();
-        }
-
-        // Toggle published / published
+        } // Toggle published / published
         elseif ($data['published'] == 0) {
             $data['published_at'] = null;
         } elseif ($data['published'] != $page->published && $data['published'] == 1) {

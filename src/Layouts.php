@@ -51,7 +51,7 @@ class Layouts
     }
 
 
-    public function getLayouts()
+    public function lists()
     {
         //dd($this->layoutPaths);
         return Cache::remember('page:layouts6', 5, function () {
