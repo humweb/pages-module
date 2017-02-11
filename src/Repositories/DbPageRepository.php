@@ -219,7 +219,7 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
     {
         $q = $this->createModel()->orderBy('parent_id')->orderBy('order');
 
-        return $published ? $q->get()->nest() : $q->published()->get()->nest();
+        return $published ? $q->published()->get()->nest() : $q->get()->nest();
     }
 
 }
