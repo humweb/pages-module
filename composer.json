@@ -29,10 +29,11 @@
       "type": "vcs",
       "url": "https://github.com/humweb/tags-module"
     }
+
   ],
   "require": {
     "php": ">=5.6.4",
-    "laravel/framework": "5.3.*",
+    "laravel/framework": "5.3.*|5.4.*",
     "humweb/modules": "dev-master",
     "humweb/core-module": "dev-master",
     "humweb/tags-module": "dev-master",
