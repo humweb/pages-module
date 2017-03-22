@@ -6,7 +6,6 @@ use Humweb\Core\Http\Controllers\Controller;
 use Humweb\Menus\Models\MenuItem;
 use Humweb\Pages\Repositories\DbPageRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 /**
  * @todo  Settings
@@ -22,8 +21,12 @@ class PagesController extends Controller
     public function __construct(DbPageRepositoryInterface $page)
     {
         parent::__construct();
-        $menu = MenuItem::build_navigation(1);
-        $this->viewShare('menu', $menu);
+
+        if (app('modules')->has('menus')) {
+            $menuId = $this->settings['site.menu'] ?? 0;
+            $menu   = MenuItem::build_navigation($menuId);
+            $this->viewShare('menu', $menu);
+        }
 
         $this->page = $page;
     }
