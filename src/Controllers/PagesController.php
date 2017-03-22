@@ -21,14 +21,15 @@ class PagesController extends Controller
     public function __construct(DbPageRepositoryInterface $page)
     {
         parent::__construct();
-
+        $menuId = 0;
+        $this->page = $page;
         if (app('modules')->has('menus')) {
             $menuId = $this->settings['site.menu'] ?? 0;
             $menu   = MenuItem::build_navigation($menuId);
             $this->viewShare('menu', $menu);
+        } else {
+            $this->viewShare('menu', $this->page->tree()->toArray());
         }
-
-        $this->page = $page;
     }
 
     // --------------------------------------------------------------------------
