@@ -16,10 +16,10 @@ class CreatePagesTables extends Migration {
 		Schema::create('pages', function($table)
 		{
 			$table->increments('id');
-			$table->integer('parent_id')->index();
-			$table->string('uri')->index();
+			$table->integer('parent_id');
+			$table->string('uri');
 			$table->string('title');
-			$table->string('slug')->index();
+			$table->string('slug');
 			$table->string('layout')->nullable();
 			$table->text('content');
 			$table->boolean('published');
@@ -33,13 +33,24 @@ class CreatePagesTables extends Migration {
 			$table->enum('meta_robots', array('noindex','nofollow','both','index','all'))->default('all');
 			$table->boolean('is_index')->default(0);
 			$table->boolean('comment_status')->default(false);
-			$table->integer('position');
+			$table->integer('order');
 
+			$table->index('parent_id');
 			$table->index('created_at');
-
+			$table->index('uri');
 		});
 
-
+		$homePage = Page::create([
+			'created_by'       => 1,
+			'slug'             => 'home',
+			'parent_id'        => 0,
+			'uri'              => 'home',
+			'title'            => 'Home',
+			'content'          => 'Welcome to your new site!',
+			'published'        => 1,
+			'is_index'         => 1,
+			'order'            => 0
+		]);
 	}
 
 	/**

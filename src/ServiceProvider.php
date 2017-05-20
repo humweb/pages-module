@@ -43,6 +43,7 @@ class ServiceProvider extends ModuleBaseProvider
     public function boot()
     {
         $this->app['modules']->put('pages', $this);
+        $this->loadMigrations();
         $this->loadLang();
         $this->loadViews();
         $this->publishViews();
