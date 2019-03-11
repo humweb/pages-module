@@ -10,7 +10,6 @@
   ],
   "description": "Pages module.",
   "keywords": [
-
   ],
   "repositories": [
     {
@@ -29,20 +28,19 @@
       "type": "vcs",
       "url": "https://github.com/humweb/tags-module"
     }
-
   ],
   "require": {
     "php": ">=5.6.4",
-    "laravel/framework": "5.3.*|5.4.*|5.5.*",
+    "laravel/framework": "5.5.*",
     "humweb/modules": "dev-master",
     "humweb/core-module": "dev-master",
     "humweb/tags-module": "dev-master",
     "humweb/theme-manager": "dev-master"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0||~5.0",
+    "phpunit/phpunit": "~6.0",
     "squizlabs/php_codesniffer": "^2.3",
-    "orchestra/testbench": "~3.3"
+    "orchestra/testbench": "~3.5"
   },
   "autoload": {
     "psr-4": {
@@ -58,6 +56,17 @@
   },
   "config": {
     "preferred-install": "dist"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Humweb\\Pages\\ServiceProvider",
+        "Humweb\\Pages\\PagesRouteServiceProvider"
+      ]
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true
