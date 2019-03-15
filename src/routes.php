@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 });
 
-Route::any('{path?}', [
+Route::fallback([
     'as'   => 'get.pages.index',
     'uses' => 'PagesController@getIndex',
 ]);

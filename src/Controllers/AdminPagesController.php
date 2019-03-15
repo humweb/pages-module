@@ -54,6 +54,7 @@ class AdminPagesController extends AdminController
         }
 
         $this->data = [
+            'page'           => new Page(),
             'layouts'        => $layouts->lists(),
             'parent_id'      => $parent_id,
             'parent_page'    => $parent_page,
@@ -64,7 +65,7 @@ class AdminPagesController extends AdminController
         $this->viewShare('title', 'Create');
         $this->crumb('Create');
 
-        return $this->setContent('pages::admin.create', $this->data);
+        return $this->setContent('pages::admin.form', $this->data);
     }
 
 
@@ -106,7 +107,7 @@ class AdminPagesController extends AdminController
     }
 
 
-    public function getIndex()
+    public function getIndex(Request $request)
     {
         $presenter = new PagePresenter();
         $this->viewShare('title', 'Page Manager');

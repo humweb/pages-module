@@ -63,8 +63,8 @@
     },
     "laravel": {
       "providers": [
-        "Humweb\\Pages\\ServiceProvider",
-        "Humweb\\Pages\\PagesRouteServiceProvider"
+//        "Humweb\\Pages\\ServiceProvider",
+//        "Humweb\\Pages\\PagesRouteServiceProvider"
       ]
     }
   },
