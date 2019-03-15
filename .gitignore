@@ -1,3 +1,10 @@
 vendor/
 node_modules/
 .rocketeer/
+.idea/workspace.xml
+.idea/php.xml
+.idea/pages-module.iml
+.idea/modules.xml
+.idea/misc.xml
+.idea/encodings.xml
+.idea/blade.xml
