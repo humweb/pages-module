@@ -139,7 +139,7 @@ class AdminPagesController extends AdminController
         $this->crumb('Edit');
         $this->viewShare('title', 'Edit Post: '.$page->title);
 
-        return $this->setContent('pages::admin.edit', $this->data);
+        return $this->setContent('pages::admin.form', $this->data);
     }
 
 
