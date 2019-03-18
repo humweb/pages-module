@@ -217,7 +217,7 @@ class DbPageRepository extends EloquentRepository implements DbPageRepositoryInt
      */
     public function tree($published = false)
     {
-        $q = $this->createModel()->select('id','parent_id','title','uri')->orderBy('parent_id')->orderBy('order');
+        $q = $this->createModel()->select('id','parent_id','title','uri', 'published')->orderBy('parent_id')->orderBy('order');
 
         return $published ? $q->published()->get()->nest() : $q->get()->nest();
     }

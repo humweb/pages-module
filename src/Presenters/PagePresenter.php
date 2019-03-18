@@ -42,6 +42,7 @@ class PagePresenter
 
         if ( ! $tree->isEmpty()) {
             foreach ($tree as $node) {
+
                 $output .= '<li class="dd-item" data-id="'.$node->id.'">'.'<div class="dd-handle">&nbsp;</div>'.'<div class="dd-content">'.$node->title;
                 $output .= ($node->published) ? '' : ' <span class="badge badge-pill badge-secondary">draft</span>';
                 $output .= '<div class="actions">'.'<div class="btn-group">'.'<a href="/admin/pages/info/'.$node->id.'" class="tip" title="Info"><i class="fa fa-info"></i></a>'.'<a href="'.route('get.admin.pages.create',
