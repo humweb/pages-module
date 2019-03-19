@@ -2,6 +2,10 @@
     {!! $content !!}
 @show
 
+@section('title')
+    {!! $title !!}
+@show
+
 @section('styles')
     @if (!empty($js))
         <style>{!! $css !!}</style>
