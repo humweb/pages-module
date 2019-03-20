@@ -82,6 +82,7 @@ class AdminPagesController extends AdminController
         $data = [
             'created_by'       => $request->user()->id,
             'slug'             => $slug,
+            'uri'              => $slug,
             'parent_id'        => $request->get('parent_id', 0),
             'title'            => $request->get('title'),
             'layout'           => $request->get('layout'),
