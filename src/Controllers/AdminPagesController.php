@@ -91,7 +91,7 @@ class AdminPagesController extends AdminController
             'js'               => $request->get('js'),
             'meta_title'       => $request->get('meta_title'),
             'meta_description' => $request->get('meta_description'),
-            'meta_robots'      => $request->get('meta_robots'),
+            'meta_robots'      => $request->get('meta_robots', ''),
             'is_index'         => $request->get('is_index', 0)
         ];
 
