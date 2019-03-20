@@ -54,7 +54,7 @@ class AdminPagesController extends AdminController
         }
 
         $this->data = [
-            'page'           => new Page(),
+            'page'           => new Page(['meta_robots' => 'index']),
             'layouts'        => $layouts->lists(),
             'parent_id'      => $parent_id,
             'parent_page'    => $parent_page,
