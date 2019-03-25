@@ -10,8 +10,6 @@ use Humweb\Core\Data\Traits\SortablePosition;
 use Humweb\Tags\Models\TaggableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-//TODO: refactor is_index to settings
-
 /**
  * Page model
  *
