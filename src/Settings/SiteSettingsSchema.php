@@ -5,6 +5,7 @@ namespace Humweb\Pages\Settings;
 use Humweb\Menus\Models\Menu;
 use Humweb\Settings\SettingsSchema;
 
+//@TODO Creat setting for default page layout
 class SiteSettingsSchema extends SettingsSchema
 {
     public function __construct($values = [], $decorator = null)

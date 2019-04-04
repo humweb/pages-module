@@ -99,7 +99,7 @@ class Page extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(Page::class, 'parent_id', 'id')->where('parent_id', '!=', 0);
+        return $this->belongsTo(Page::class, 'parent_id', 'id');
     }
 
 

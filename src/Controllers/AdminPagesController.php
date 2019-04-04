@@ -82,7 +82,7 @@ class AdminPagesController extends AdminController
         $data = [
             'created_by'       => $request->user()->id,
             'slug'             => $slug,
-            'uri'              => $slug,
+            'uri'              => $request->get('uri'),
             'parent_id'        => $request->get('parent_id', 0),
             'title'            => $request->get('title'),
             'layout'           => $request->get('layout'),
@@ -104,7 +104,7 @@ class AdminPagesController extends AdminController
         }
 
         $page = Page::create($data);
-        redirect()->route('get.admin.pages.index')->with('success', 'Page added.');
+        return redirect()->route('get.admin.pages.index')->with('success', 'Page added.');
     }
 
 
@@ -132,8 +132,7 @@ class AdminPagesController extends AdminController
         $page = $this->page->find($id);
 
         $this->data = [
-            'layouts'        => $layouts->lists(),
-            'page'           => $page,
+            'layouts'        => $layouts->lists(), 'page' => $page, 'parent_page' => $page->parent,
             'available_tags' => $this->tag->select('slug', 'name')->orderBy('name', 'asc')->pluck('name', 'slug'),
             'current_tags'   => ($page->tagged->count() > 0) ? $page->tagged()->pluck('name', 'slug') : [],
         ];
@@ -164,7 +163,7 @@ class AdminPagesController extends AdminController
             'content'          => $request->get('content'),
             'layout'           => $request->get('layout'),
             'slug'             => str_slug($request->get('slug')),
-            'uri'              => str_slug($request->get('slug')),
+            'uri'              => $request->get('uri'),
             'created_by'       => $request->user()->id,
             'css'              => $request->get('css'),
             'js'               => $request->get('js'),

@@ -45,7 +45,9 @@ class PagePresenter
 
                 $output .= '<li class="dd-item" data-id="'.$node->id.'">'.'<div class="dd-handle">&nbsp;</div>'.'<div class="dd-content">'.$node->title;
                 $output .= ($node->published) ? '' : ' <span class="badge badge-pill badge-secondary">draft</span>';
-                $output .= '<div class="actions">'.'<div class="btn-group">'.'<a href="/admin/pages/info/'.$node->id.'" class="tip" title="Info"><i class="fa fa-info"></i></a>'.'<a href="'.route('get.admin.pages.create',
+                $output .= '<div class="actions">'.
+                        '<div class="btn-group">'.
+                        '<a href="'.route('get.admin.pages.create',
                         [$node->id]).'" class="tip" title="Add child page"><i class="fa fa-plus"></i></a>'.'<a href="'.route('get.admin.pages.edit',
                         [$node->id]).'" class="tip" title="Edit"><i class="fa fa-edit"></i></a>'.'<a href="'.route('get.admin.pages.delete',
                         [$node->id]).'" class="tip" title="Delete"><i class="fa fa-trash"></i></a>'.'</div>'.'</div></div>';
